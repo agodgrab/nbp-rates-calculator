@@ -6,6 +6,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class NbpHandler extends DefaultHandler {
@@ -14,9 +15,10 @@ public class NbpHandler extends DefaultHandler {
     public List<BigDecimal> listOfBuyingRates;
     public List<BigDecimal> listOfSellingRates;
     private String tmpValue;
-    private boolean bcurrency;
+    private boolean bCurrency;
     private boolean bBuyingRate;
     private boolean bSellingRate;
+
 
     public NbpHandler(String currency) {
         this.requestedCurrency = currency;
@@ -25,39 +27,39 @@ public class NbpHandler extends DefaultHandler {
     }
 
     public List<BigDecimal> getListOfBuyingRates() {
-        return new ArrayList<>(listOfBuyingRates);
+        return Collections.unmodifiableList(listOfBuyingRates);
     }
 
     public List<BigDecimal> getListOfSellingRates() {
-        return new ArrayList<>(listOfSellingRates);
+        return Collections.unmodifiableList(listOfSellingRates);
     }
 
     @Override
     public void startElement(String uri, String localName, String elementName, Attributes attributes) throws SAXException {
 
         if (elementName.equalsIgnoreCase("pozycja")) {
-            bcurrency = true;
+            bCurrency = true;
         }
     }
 
     @Override
     public void endElement(String s, String s1, String element) throws SAXException {
-        if (element.equalsIgnoreCase("kurs_kupna") && bcurrency && bBuyingRate) {
+        if (element.equalsIgnoreCase("kurs_kupna") && bCurrency && bBuyingRate) {
             listOfBuyingRates.add(new BigDecimal(tmpValue.replace(",", ".")));
             bBuyingRate = false;
         }
-        if (element.equalsIgnoreCase("kurs_sprzedazy") && bcurrency && bSellingRate) {
+        if (element.equalsIgnoreCase("kurs_sprzedazy") && bCurrency && bSellingRate) {
             listOfSellingRates.add(new BigDecimal(tmpValue.replace(",", ".")));
             bSellingRate = false;
         }
         if (element.equalsIgnoreCase("pozycja")) {
-            bcurrency = false;
+            bCurrency = false;
         }
     }
 
     @Override
     public void characters(char[] ac, int i, int j) throws SAXException {
-        if (bcurrency) {
+        if (bCurrency) {
             tmpValue = new String(ac, i, j);
             if (tmpValue.equals(requestedCurrency)) {
                 bBuyingRate = true;

@@ -5,49 +5,57 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.lang.Integer.parseInt;
 
 public class Dir {
-    private int start;
-    private int end;
+    private String start;
+    private String end;
+    private static String BASE_URL = "http://www.nbp.pl/kursy/xml/";
+    private static String BASE_FILE_NAME = "src/main/resources/";
 
     public Dir(String start, String end) {
-        this.start = parseInt(start.substring(2));
-        this.end = parseInt(end.substring(2));
+        this.start = start;
+        this.end = end;
     }
 
-    private static String BASE_URL = "http://www.nbp.pl/kursy/xml/";
-    private static String URL = BASE_URL + "dir.txt";
-    private static String FILE_NAME = "/Users/aleksandragodyn/PROGRAMMING/nbpdir.txt";
+    public void downloadDirs() {
 
+        selectDirFiles().stream()
+                .forEach(dirName -> download(BASE_URL + dirName, BASE_FILE_NAME + dirName));
+    }
 
-    public void download() {
-        try (ReadableByteChannel readableByteChannel = Channels.newChannel(new URL(URL).openStream())) {
-            FileOutputStream fileOutputStream = new FileOutputStream(FILE_NAME);
+    public List<String> getDirsPathsList() {
+        return selectDirFiles().stream()
+                .map(dirName -> BASE_FILE_NAME + dirName)
+                .collect(Collectors.toList());
+    }
+
+    private List<String> selectDirFiles() {
+        List<String> dirs = new ArrayList<>();
+        String startYear = start.substring(0, 4);
+        String endYear = end.substring(0, 4);
+        if (parseInt(startYear) == LocalDate.now().getYear()) {
+            dirs.add("dir.txt");
+        } else {
+            for (int i = parseInt(startYear); i <= parseInt(endYear); i++) {
+                dirs.add("dir" + i + ".txt");
+            }
+        }
+        return dirs;
+    }
+
+    private void download(String url, String filePath) {
+        try (ReadableByteChannel readableByteChannel = Channels.newChannel(new URL(url).openStream())) {
+            FileOutputStream fileOutputStream = new FileOutputStream(filePath);
             fileOutputStream.getChannel()
                     .transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
         } catch (IOException e) {
             System.out.println("Exception occurred: " + e.getMessage());
-        }
-    }
-
-
-    public List<String> select() {
-
-        try (Stream<String> stream = Files.lines(Paths.get(FILE_NAME))) {
-            return stream.filter(line -> line.startsWith("c") && start <= parseInt(line.substring(5)) && parseInt(line.substring(5)) <= end)
-                    .map(line -> BASE_URL + line + ".xml")
-                    .collect(Collectors.toList());
-        } catch (IOException e) {
-            System.out.println("Exception occurred: " + e.getMessage());
-            return new ArrayList<>();
         }
     }
 }

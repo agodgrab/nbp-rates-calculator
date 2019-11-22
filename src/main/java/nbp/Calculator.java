@@ -5,11 +5,11 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.List;
 
-public class DataDownloaded {
+public class Calculator {
     private List<BigDecimal> buyingRates;
     private List<BigDecimal> sellingRates;
 
-    public DataDownloaded(List<BigDecimal> buyingRates, List<BigDecimal> sellingRates) {
+    public Calculator(List<BigDecimal> buyingRates, List<BigDecimal> sellingRates) {
         this.buyingRates = buyingRates;
         this.sellingRates = sellingRates;
     }
