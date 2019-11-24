@@ -17,11 +17,12 @@ public class NbpSaxParser {
         this.handler = new NbpHandler(currency);
     }
 
-    public void parseDocument(String xmlFileName) {
+    public void parseDocument(List<String> xmlFileNameList) {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         try {
             SAXParser parser = factory.newSAXParser();
-            parser.parse(xmlFileName, handler);
+            for(String xmlFileName: xmlFileNameList){
+                parser.parse(xmlFileName, handler); }
         } catch (ParserConfigurationException e) {
             System.out.println("ParserConfig error");
         } catch (SAXException e) {
