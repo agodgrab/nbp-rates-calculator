@@ -8,7 +8,7 @@ public class Results {
 
     public static void calculateResults(List<String> listOfXmlFiles, NbpSaxParser nbpSaxParser) {
 
-        nbpSaxParser.parseDocument(listOfXmlFiles);
+        nbpSaxParser.parseDocuments(listOfXmlFiles);
         Calculator calculator = new Calculator(nbpSaxParser.getDataBuyingRates(), nbpSaxParser.getDataSellingRates());
 
         System.out.println("Average buying rate: " + calculator.averageBuyingRate());
