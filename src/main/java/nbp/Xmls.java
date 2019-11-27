@@ -1,17 +1,14 @@
 package nbp;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class Xmls {
 
     public List<String> fetchXmlFilesList(Dir dir) {
-        List<String> result = new ArrayList<>();
-
-        for (String dirPath : dir.getDirsPathsList()) {
-            result.addAll(dir.selectXmlFilesFromDir(dirPath));
-        }
-        return result;
+        return dir.getDirsPathsList().parallelStream()
+                .map(dir::selectXmlFilesFromDir)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
     }
 }

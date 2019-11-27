@@ -14,8 +14,9 @@ public class Runner {
 
         dir.downloadDirs();
         List<String> listOfXmlFiles = xmls.fetchXmlFilesList(dir);
+        nbpSaxParser.parseDocuments(listOfXmlFiles);
 
-        Results.calculateResults(listOfXmlFiles, nbpSaxParser);
+        Results.calculateResults(nbpSaxParser.getDataBuyingRates(), nbpSaxParser.getDataSellingRates());
 
     }
 

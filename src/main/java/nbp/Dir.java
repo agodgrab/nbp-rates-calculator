@@ -29,7 +29,7 @@ public class Dir {
 
     public void downloadDirs() {
 
-        selectDirFiles().stream()
+        selectDirFiles().parallelStream()
                 .forEach(dirName -> download(BASE_URL + dirName, BASE_FILE_NAME + dirName));
     }
 
