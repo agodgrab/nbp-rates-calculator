@@ -4,9 +4,8 @@ public class MainClass {
 
     public static void main(String[] args) {
 
-        Request.INSTANCE.setCurrency(args[0]);
-        Request.INSTANCE.setStart(args[1]);
-        Request.INSTANCE.setEnd(args[2]);
+        Validator validator = new Validator(args);
+        validator.validate();
 
         Runner runner = new Runner();
         runner.run();

@@ -57,14 +57,14 @@ public class Dir {
         List<String> dirs = new ArrayList<>();
         String startYear = start.substring(0, 4);
         String endYear = end.substring(0, 4);
-        if (parseInt(startYear) == LocalDate.now().getYear()){
+        if (parseInt(startYear) == LocalDate.now().getYear()) {
             dirs.add("dir.txt");
-        }else if(parseInt(endYear) == LocalDate.now().getYear()){
-            for (int i = parseInt(startYear); i <parseInt(endYear); i++) {
+        } else if (parseInt(endYear) == LocalDate.now().getYear()) {
+            for (int i = parseInt(startYear); i < parseInt(endYear); i++) {
                 dirs.add("dir" + i + ".txt");
             }
             dirs.add("dir.txt");
-        }else {
+        } else {
             for (int i = parseInt(startYear); i <= parseInt(endYear); i++) {
                 dirs.add("dir" + i + ".txt");
             }
