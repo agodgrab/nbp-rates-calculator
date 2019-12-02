@@ -1,4 +1,4 @@
-package nbp;
+package nbp.processor;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -12,6 +12,11 @@ public class Calculator {
     public Calculator(List<BigDecimal> buyingRates, List<BigDecimal> sellingRates) {
         this.buyingRates = buyingRates;
         this.sellingRates = sellingRates;
+    }
+
+    public void printResult(){
+        System.out.println("Average buying rate: " + averageBuyingRate());
+        System.out.println("Standard deviation of selling rates: " + sellingRatesStandardDeviation());
     }
 
     public BigDecimal averageBuyingRate() {

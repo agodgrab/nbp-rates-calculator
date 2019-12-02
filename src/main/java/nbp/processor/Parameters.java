@@ -1,6 +1,6 @@
-package nbp;
+package nbp.processor;
 
-public enum Request {
+public enum Parameters {
 
     INSTANCE;
 

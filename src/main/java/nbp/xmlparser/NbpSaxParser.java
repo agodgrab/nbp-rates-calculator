@@ -1,11 +1,7 @@
 package nbp.xmlparser;
 
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -24,12 +20,8 @@ public class NbpSaxParser {
             for (String xmlFileName : xmlFileNameList) {
                 parser.parse(xmlFileName, handler);
             }
-        } catch (ParserConfigurationException e) {
-            System.out.println("ParserConfig error");
-        } catch (SAXException e) {
-            System.out.println("SAXException : xml not well formed");
-        } catch (IOException e) {
-            System.out.println("IO error");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
