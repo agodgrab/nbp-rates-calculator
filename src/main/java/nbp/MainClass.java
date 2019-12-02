@@ -1,5 +1,8 @@
 package nbp;
 
+import nbp.processor.Runner;
+import nbp.processor.Validator;
+
 public class MainClass {
 
     public static void main(String[] args) {
