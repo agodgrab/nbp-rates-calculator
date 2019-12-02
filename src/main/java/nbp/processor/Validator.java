@@ -1,4 +1,4 @@
-package nbp;
+package nbp.processor;
 
 import java.time.LocalDate;
 import java.time.Year;
@@ -21,7 +21,7 @@ public class Validator {
     private void validateCurrency(String input) {
         try {
             CurrencyCode code = CurrencyCode.valueOf(input);
-            Request.INSTANCE.setCurrency(code.name());
+            Parameters.INSTANCE.setCurrency(code.name());
         } catch (Exception e) {
             System.out.println("Wrong currency code. Codes available: " + Arrays.toString(CurrencyCode.values()));
             System.exit(1);
@@ -33,8 +33,8 @@ public class Validator {
             singleDateValidator(startInput);
             singleDateValidator(endInput);
             startBeforeEndValidator(startInput, endInput);
-            Request.INSTANCE.setStart(startInput);
-            Request.INSTANCE.setEnd(endInput);
+            Parameters.INSTANCE.setStart(startInput);
+            Parameters.INSTANCE.setEnd(endInput);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.exit(1);
